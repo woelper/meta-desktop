@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding = UTF-8
+Name=Meta-Desktop Session
+Comment=Runs your preconfigured meta de
+Exec=metade-session
+Icon=
+Type=Application
