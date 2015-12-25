@@ -6,7 +6,7 @@ import time
 
 def load_config():
     homedir = os.path.expanduser('~')
-    conffile = os.path.join(homedir,'.metade.conf')
+    conffile = os.path.join(homedir, '.metade.conf')
     with open(conffile) as config_file:
         config = json.load(config_file)
     return config
@@ -15,9 +15,10 @@ def exec_startup():
     for item, binary in configuration.iteritems():
         if binary is not None:
             print 'running', binary
-            subprocess.Popen(binary)
-            #subprocess.call(binary)
-            print 'running', binary
+            try:
+                subprocess.Popen(binary)
+            except: # This is intentionally broad
+                print 'failed to run', binary
 
 configuration = load_config()
 exec_startup()
