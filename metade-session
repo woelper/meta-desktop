@@ -3,10 +3,19 @@ import os
 import json
 import subprocess
 import time
+import logging
+
+HOME = os.path.expanduser('~')
+RLOG = os.path.join('/var/log', 'metade.log')
+ULOG = os.path.join(HOME, 'metade.log')
+
+try:
+    logging.basicConfig(filename=RLOG,level=logging.DEBUG)
+except IOError:
+    logging.basicConfig(filename=ULOG,level=logging.DEBUG)
 
 def load_config():
-    homedir = os.path.expanduser('~')
-    conffile = os.path.join(homedir, '.metade.conf')
+    conffile = os.path.join(HOME, '.metade.conf')
     with open(conffile) as config_file:
         config = json.load(config_file)
     return config
@@ -14,11 +23,12 @@ def load_config():
 def exec_startup():
     for item, binary in configuration.iteritems():
         if binary is not None:
-            print 'running', binary
+            binary = binary.split()
             try:
                 subprocess.Popen(binary)
+                logging.info('starting ' + str(binary))
             except: # This is intentionally broad
-                print 'failed to run', binary
+                logging.warning('failed to run ' + str(binary))
 
 configuration = load_config()
 exec_startup()

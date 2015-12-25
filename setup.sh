@@ -1,6 +1,18 @@
-python config.py
+USER=$(whoami)
 
-echo as root:
-echo cp meta-desktop.desktop /usr/share/xsessions
-echo cp metade-session /usr/local/bin
+OS=redhat
+
+case "$OS" in
+    ubuntu)
+        sudo ln -s $(pwd)/meta-desktop.desktop /usr/share/xsessions/
+        sudo ln -s $(pwd)/metade-session /usr/local/bin/
+        ;;
+
+    redhat)
+        su -c "ln -s $(pwd)/meta-desktop.desktop /usr/share/xsessions/"
+        su -c "ln -s $(pwd)/metade-session /usr/local/bin/"
+        ;;
+esac
+
+python config.py
 

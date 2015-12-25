@@ -12,7 +12,7 @@ class Config:
                          'Launcher': ['albert', 'gnome-do'],
                          'Network': ['nm-applet'],
                          'Dock': ['cairo-dock','xfce4-panel','pypanel', 'mate-panel', 'lxqt-panel', 'lxpanel', 'fbpanel'],
-                         'Background': ['xv -root -quit ' + BG, 'xsetroot -grey', 'hsetroot']
+                         'Background': ['display -window root ' + BG, 'xv -root -quit ' + BG, 'xsetroot -grey', 'hsetroot']
                          }
         self.config = {}
 
