@@ -4,15 +4,36 @@ import os
 import json
 import sys
 
+
+# TODO: screensaver, hidpi, mouse config
+
 class Config:
     def __init__(self):
         MEDIADIR = os.path.join(os.path.dirname(sys.argv[0]), 'media')
         BG = os.path.abspath(os.path.join(MEDIADIR, 'bg.png'))
-        self.ELEMENTS = {'Window Manager': ['xfwm4', 'bad_test', 'fvwm', 'gnome-shell'],
-                         'Launcher': ['albert', 'gnome-do'],
+        self.ELEMENTS = {'Window Manager': ['xfwm4',
+                                            'bad_test',
+                                            'fvwm',
+                                            'gnome-shell'
+                                            ],
+                         'Launcher': ['albert',
+                                      'gnome-do'
+                                      ],
                          'Network': ['nm-applet'],
-                         'Dock': ['cairo-dock', 'xfce4-panel', 'razor-panel', 'pypanel', 'mate-panel', 'lxqt-panel', 'lxpanel', 'fbpanel'],
-                         'Background': ['display -window root ' + BG, 'xv -root -quit ' + BG, 'xsetroot -grey', 'hsetroot']
+                         'Dock': ['cairo-dock',
+                                  'xfce4-panel',
+                                  'razor-panel',
+                                  'pypanel',
+                                  'mate-panel',
+                                  'lxqt-panel',
+                                  'lxpanel',
+                                  'fbpanel'],
+                         'Background': ['display -window root ' + BG,
+                                        'xv -root -quit ' + BG,
+                                        'xsetroot -grey',
+                                        'hsetroot'
+                                        ],
+                         'Volume control': ['volumeicon']
                          }
         self.config = {}
 
