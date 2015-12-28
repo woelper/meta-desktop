@@ -9,8 +9,12 @@ import sys
 
 class Config:
     def __init__(self):
-        MEDIADIR = os.path.join(os.path.dirname(sys.argv[0]), 'media')
-        BG = os.path.abspath(os.path.join(MEDIADIR, 'bg.png'))
+        STOCK_BGS = 6
+        BG = []
+        MEDIADIR = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), 'media'))
+        for i in range(1, STOCK_BGS):
+            BG.append(os.path.abspath(os.path.join(MEDIADIR, 'bg' + str(i) + '.png')))
+
         self.ELEMENTS = {'Window Manager': ['xfwm4',
                                             'bad_test',
                                             'fvwm',
@@ -28,14 +32,19 @@ class Config:
                                   'lxqt-panel',
                                   'lxpanel',
                                   'fbpanel'],
-                         'Background': ['display -window root ' + BG,
-                                        'xv -root -quit ' + BG,
+                         'Background': ['display -window root ' + BG[0],
+                                        'display -window root ' + BG[1],
+                                        'display -window root ' + BG[2],
+                                        'display -window root ' + BG[3],
+                                        'display -window root ' + BG[4],
+                                        'xv -root -quit ' + BG[0],
                                         'xsetroot -grey',
                                         'hsetroot'
                                         ],
                          'Volume control': ['volumeicon']
                          }
-        self.config = {}
+        self.config = {'settings': {'MEDIADIR': MEDIADIR},
+                       'binaries': {}}
 
     def validate_binaries(self, binaries):
         valid_binaries = []
@@ -61,8 +70,8 @@ class Config:
     def save_config(self):
         print self.config
         homedir = os.path.expanduser('~')
-        conffile = os.path.join(homedir,'.metade.conf')
-        with open(conffile,'w') as f:
+        conffile = os.path.join(homedir, '.metade.conf')
+        with open(conffile, 'w') as f:
             json.dump(self.config, f, indent=4)
 
 
@@ -71,7 +80,7 @@ class Config:
             print 'Make a selection: ' + description
             print 'Autodetected the following from', ', '.join(choices), ':'
             choice = self.chooser(self.validate_binaries(choices))
-            self.config[description] = choice
+            self.config['binaries'][description] = choice
 
         # Add general stuff. Comment out if that's too fancy for you.
         # self.config['dbus'] = 'dbus-launch'

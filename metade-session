@@ -4,15 +4,21 @@ import json
 import subprocess
 import time
 import logging
+import sys
+
+
+
 
 HOME = os.path.expanduser('~')
+
 RLOG = os.path.join('/var/log', 'metade.log')
 ULOG = os.path.join(HOME, 'metade.log')
 
 try:
-    logging.basicConfig(filename=RLOG,level=logging.DEBUG)
+    logging.basicConfig(filename=RLOG, level=logging.DEBUG)
 except IOError:
-    logging.basicConfig(filename=ULOG,level=logging.DEBUG)
+    logging.basicConfig(filename=ULOG, level=logging.DEBUG)
+
 
 def load_config():
     conffile = os.path.join(HOME, '.metade.conf')
@@ -20,8 +26,9 @@ def load_config():
         config = json.load(config_file)
     return config
 
+
 def exec_startup():
-    for item, binary in configuration.iteritems():
+    for item, binary in configuration['binaries'].iteritems():
         if binary is not None:
             binary = binary.split()
             try:
@@ -31,6 +38,12 @@ def exec_startup():
                 logging.warning('failed to run ' + str(binary))
 
 configuration = load_config()
+MEDIADIR = configuration['settings']['MEDIADIR']
+
+os.environ['GTK_THEME'] = 'Meta'
+os.environ['XDG_DATA_DIRS'] = os.environ['XDG_DATA_DIRS'] + ':' + MEDIADIR
+os.environ['GTK2_RC_FILES'] = os.path.join(MEDIADIR, 'themes', 'Meta', 'gtk-2.0', 'gtkrc')
+
 exec_startup()
 
 while True:

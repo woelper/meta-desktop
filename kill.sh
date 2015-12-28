@@ -1,1 +1,1 @@
-kill -9 $(ps fax | grep python | grep meta | cut -d " " -f1)
+kill -9 $(ps fax | grep python | grep meta | sed -e 's/^[ \t]*//' | cut -d " " -f1)
