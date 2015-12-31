@@ -1,23 +1,43 @@
 import os
 import shutil
+import glob
 
-XFCE = {3: 'close',
-        6: 'maximize',
-        9: 'menu',
-        12: 'hide'
-        }
+STATES = {0: ['-active', '-toggled-active'],
+          1: ['-inactive', '-toggled-inactive'],
+          2: ['-prelight'],
+          3: ['-pressed', '-toggled-pressed'],
+          }
 
-title_states = ['-active', '-inactive']
-button_states = ['-active', '-inactive', '-pressed', '-toggled-pressed', '-toggled-inactive', '-toggled-active']
+TYPES = {1: {'types': ['close'], 'states': [0, 1, 2, 3]},
+         2: {'types': ['maximize'], 'states': [0, 1, 2, 3]},
+         3: {'types': ['menu'], 'states': [0, 1, 2, 3]},
+         4: {'types': ['hide'], 'states': [0, 1, 2, 3]},
+         5: {'types': ['title-1', 'title-2', 'title-3', 'title-4', 'title-5'], 'states': [0, 1]},
+         6: {'types': ['bottom-left'], 'states': [0, 1]},
+         7: {'types': ['bottom-right'], 'states': [0, 1]},
+         8: {'types': ['bottom'], 'states': [0, 1]},
+         9: {'types': ['left'], 'states': [0, 1]},
+         10: {'types': ['right'], 'states': [0, 1]},
+         }
 
 
-for frame, name in XFCE.iteritems():
-    for state in button_states:
-        for i in range(frame-3, frame):
-            print i+1, name, state
-            shutil.copy('templates/' + str(i+1)+'.png', name + state + '.png')
+for template in glob.glob('templates/template_*.png'):
+    template_type = template.replace('.png', '').split('_')
+    type = int(template_type[1])
+    state = int(template_type[2])
+    if type in TYPES:
+        #final_type = TYPES[type]
 
-for i in range(1, 6):
-    print i
-    shutil.copy('templates/title_1.png', 'title-' + str(i) + '-active.png')
-    shutil.copy('templates/title_2.png', 'title-' + str(i) + '-inactive.png')
+        final_types = TYPES[type]['types']
+
+        final_states = []
+        if state in STATES:
+            for st in TYPES[type]['states']:
+                if st == state:
+                    final_states = final_states + STATES[st]
+
+        for tp in final_types:
+            for st in final_states:
+                dest = tp + st + '.png'
+                print template, '>', dest
+                shutil.copy(template, dest)
