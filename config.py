@@ -13,7 +13,7 @@ class Config:
         BG = []
         MEDIADIR = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), 'media'))
         for i in range(1, STOCK_BGS):
-            BG.append(os.path.abspath(os.path.join(MEDIADIR, 'bg' + str(i) + '.png')))
+            BG.append(os.path.abspath(os.path.join(MEDIADIR, 'wallpapers', 'bg' + str(i) + '.png')))
 
         self.ELEMENTS = {'Window Manager': ['xfwm4',
                                             'bad_test',
