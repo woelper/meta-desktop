@@ -19,6 +19,7 @@ try:
 except IOError:
     logging.basicConfig(filename=ULOG, level=logging.DEBUG)
 
+logging.info('### STARTING UP META DESKTOP SESSION ###')
 
 def load_config():
     conffile = os.path.join(HOME, '.metade.conf')
@@ -30,7 +31,7 @@ def load_config():
 def exec_startup():
     for item, binary in configuration['binaries'].iteritems():
         if binary is not None:
-            binary = binary.split()
+            #binary = binary.split()
             try:
                 subprocess.Popen(binary)
                 logging.info('starting ' + str(binary))

@@ -15,33 +15,40 @@ class Config:
         for i in range(1, STOCK_BGS):
             BG.append(os.path.abspath(os.path.join(MEDIADIR, 'wallpapers', 'bg' + str(i) + '.png')))
 
-        self.ELEMENTS = {'Window Manager': ['xfwm4',
-                                            'bad_test',
-                                            'fvwm',
-                                            'gnome-shell'
+        self.ELEMENTS = {'Window Manager': [['xfwm4'],
+                                            ['openbox'],
+                                            ['blackbox'],
+                                            ['compiz'],
+                                            ['icewm'],
+                                            ['bad_test'],
+                                            ['fvwm'],
+                                            ['gnome-shell']
                                             ],
-                         'Launcher': ['albert',
-                                      'gnome-do'
+                         'Launcher': [['albert'],
+                                      ['gnome-do']
                                       ],
-                         'Network': ['nm-applet'],
-                         'Dock': ['cairo-dock',
-                                  'xfce4-panel',
-                                  'razor-panel',
-                                  'pypanel',
-                                  'mate-panel',
-                                  'lxqt-panel',
-                                  'lxpanel',
-                                  'fbpanel'],
-                         'Background': ['display -window root ' + BG[0],
-                                        'display -window root ' + BG[1],
-                                        'display -window root ' + BG[2],
-                                        'display -window root ' + BG[3],
-                                        'display -window root ' + BG[4],
-                                        'xv -root -quit ' + BG[0],
-                                        'xsetroot -grey',
-                                        'hsetroot'
+                         'Network': [['nm-applet']],
+                         'Battery': [['ptbatterysystemtray'], ['/usr/bin/ptbatterysystemtray']],
+                         'Dock': [['cairo-dock'],
+                                  ['xfce4-panel'],
+                                  ['razor-panel'],
+                                  ['pypanel'],
+                                  ['mate-panel'],
+                                  ['lxqt-panel'],
+                                  ['lxpanel'],
+                                  ['fbpanel']],
+                         'Background': [['display', '-window', 'root', BG[0]],
+                                        ['display', '-window', 'root', BG[1]],
+                                        ['display', '-window', 'root', BG[2]],
+                                        ['display', '-window', 'root', BG[3]],
+                                        ['display', '-window', 'root',BG[4]],
+                                        ['xv', '-root', '-quit', BG[0]],
+                                        ['xsetroot', '-grey'],
+                                        ['hsetroot', '-solid', '#333333']
                                         ],
-                         'Volume control': ['volumeicon']
+                         'Volume control': [['volumeicon']],
+                         'Disable touchpad tapping': [['synclient', 'MaxTapTime=0']],
+                         'Reverse scroll direction': [['xmodmap', '-e', '"pointer = 1 2 3 5 4"']]
                          }
         self.config = {'settings': {'MEDIADIR': MEDIADIR},
                        'binaries': {}}
