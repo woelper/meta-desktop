@@ -20,6 +20,8 @@ except IOError:
     logging.basicConfig(filename=ULOG, level=logging.DEBUG)
 
 logging.info('### STARTING UP META DESKTOP SESSION ###')
+logging.info('Home: ' + HOME)
+
 
 def load_config():
     conffile = os.path.join(HOME, '.metade.conf')
@@ -33,19 +35,31 @@ def exec_startup():
         if binary is not None:
             #binary = binary.split()
             try:
-                subprocess.Popen(binary)
-                logging.info('starting ' + str(binary))
+                process = subprocess.Popen(binary)
+                returncode = process.returncode
+                output = process.communicate()[0]
+                if returncode != 0:
+                    logging.warning(str(binary) + ': non-zero exit status')
+                    logging.warning(output)
+                else:
+                    logging.info('Starting ' + str(binary))
             except: # This is intentionally broad
                 logging.warning('failed to run ' + str(binary))
 
 configuration = load_config()
+
 MEDIADIR = configuration['settings']['MEDIADIR']
 
 os.environ['GTK_THEME'] = 'Meta'
-os.environ['XDG_DATA_DIRS'] = os.environ['XDG_DATA_DIRS'] + ':' + MEDIADIR
+if 'XDG_DATA_DIRS' in os.environ:
+    os.environ['XDG_DATA_DIRS'] = os.environ['XDG_DATA_DIRS'] + ':' + MEDIADIR
+else:
+    os.environ['XDG_DATA_DIRS'] = MEDIADIR
+
 os.environ['GTK2_RC_FILES'] = os.path.join(MEDIADIR, 'themes', 'Meta', 'gtk-2.0', 'gtkrc')
 
 exec_startup()
-
+print 'Done with startup'
+logging.info('Completed startup phase. Sleeping.')
 while True:
     time.sleep(30)

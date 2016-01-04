@@ -59,7 +59,7 @@ class Config:
 
         for binary in binaries:
             # ensure that we skip arguments
-            if subprocess.call(['which', binary.split()[0]], stdout=FNULL, stderr=FNULL) == 0:
+            if subprocess.call(['which', binary[0]], stdout=FNULL, stderr=FNULL) == 0:
                 valid_binaries.append(binary)
         return valid_binaries
 
@@ -85,7 +85,8 @@ class Config:
     def wizard(self):
         for description, choices in self.ELEMENTS.iteritems():
             print 'Make a selection: ' + description
-            print 'Autodetected the following from', ', '.join(choices), ':'
+            print choices
+            #print 'Autodetected the following from', ', '.join(choices), ':'
             choice = self.chooser(self.validate_binaries(choices))
             self.config['binaries'][description] = choice
 
