@@ -46,7 +46,7 @@ style "default"
   text[SELECTED]    = "#FFFFFF"
   text[INSENSITIVE] = "#747474"
 
-  font_name = "Droid Sans 10"
+  font_name = "Droid Sans 16"
   engine "thinice"
   {
     # Do you want the scrollbar handles rectangular or a bit shaped?
