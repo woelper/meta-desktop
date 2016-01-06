@@ -29,13 +29,14 @@ class Config:
                                       ],
                          'Network': [['nm-applet']],
                          'Battery': [['ptbatterysystemtray'], ['/usr/bin/ptbatterysystemtray']],
-                         'Dock': [['cairo-dock'],
+                         'Dock': [['lxpanel'],
+                                  ['pypanel'],
+                                  ['cairo-dock'],
                                   ['xfce4-panel'],
                                   ['razor-panel'],
-                                  ['pypanel'],
                                   ['mate-panel'],
                                   ['lxqt-panel'],
-                                  ['lxpanel'],
+
                                   ['fbpanel']],
                          'Background': [['display', '-window', 'root', BG[0]],
                                         ['display', '-window', 'root', BG[1]],
@@ -50,8 +51,10 @@ class Config:
                          'Disable touchpad tapping': [['synclient', 'MaxTapTime=0']],
                          'Reverse scroll direction': [['xmodmap', '-e', '"pointer = 1 2 3 5 4"']]
                          }
-        self.config = {'settings': {'MEDIADIR': MEDIADIR},
-                       'binaries': {}}
+        self.config = {'settings': {'MEDIADIR': MEDIADIR, 'THEME': 'Meta'},
+                       'binaries': {}
+                       }
+        self.THEMES = ['Meta', 'Meta-hdpi', 'Clearlooks']
 
     def validate_binaries(self, binaries):
         valid_binaries = []
@@ -89,6 +92,11 @@ class Config:
             #print 'Autodetected the following from', ', '.join(choices), ':'
             choice = self.chooser(self.validate_binaries(choices))
             self.config['binaries'][description] = choice
+
+        choice = self.chooser(self.THEMES)
+        print choice, 'was chosen'
+        self.config['settings']['THEME'] = choice
+
 
         # Add general stuff. Comment out if that's too fancy for you.
         # self.config['dbus'] = 'dbus-launch'

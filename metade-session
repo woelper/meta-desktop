@@ -51,14 +51,16 @@ def exec_startup():
 configuration = load_config()
 
 MEDIADIR = configuration['settings']['MEDIADIR']
+THEME = configuration['settings']['THEME']
 
-os.environ['GTK_THEME'] = 'Meta'
+
+os.environ['GTK_THEME'] = THEME
 if 'XDG_DATA_DIRS' in os.environ:
     os.environ['XDG_DATA_DIRS'] = os.environ['XDG_DATA_DIRS'] + ':' + MEDIADIR
 else:
     os.environ['XDG_DATA_DIRS'] = MEDIADIR
 
-os.environ['GTK2_RC_FILES'] = os.path.join(MEDIADIR, 'themes', 'Meta', 'gtk-2.0', 'gtkrc')
+os.environ['GTK2_RC_FILES'] = os.path.join(MEDIADIR, 'themes', THEME, 'gtk-2.0', 'gtkrc')
 
 exec_startup()
 print 'Done with startup'
