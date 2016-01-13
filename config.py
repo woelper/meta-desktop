@@ -3,6 +3,7 @@ import subprocess
 import os
 import json
 import sys
+import glob
 
 
 # TODO: screensaver, hidpi, mouse config
@@ -12,8 +13,20 @@ class Config:
         STOCK_BGS = 6
         BG = []
         MEDIADIR = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), 'media'))
-        for i in range(1, STOCK_BGS):
-            BG.append(os.path.abspath(os.path.join(MEDIADIR, 'wallpapers', 'bg' + str(i) + '.png')))
+        #for i in range(1, STOCK_BGS):
+        #    BG.append(os.path.abspath(os.path.join(MEDIADIR, 'wallpapers', 'bg' + str(i) + '.png')))
+        for bg in glob.glob(os.path.join(MEDIADIR, 'wallpapers', '*.png') ):
+            BG.append(bg)
+
+        def bg_options(wallpapers, colors=['#334433', '#222222']):
+            bg_commands = []
+            for wallpaper in wallpapers:
+                bg_commands.append(['display', '-window', 'root', wallpaper])
+                bg_commands.append(['hsetroot', '-fill', wallpaper])
+            for color in colors:
+                bg_commands.append(['hsetroot', '-solid', color])
+            bg_commands.append('xfdesktop')
+            return bg_commands
 
         self.ELEMENTS = {'Window Manager': [['xfwm4'],
                                             ['openbox'],
@@ -38,15 +51,7 @@ class Config:
                                   ['lxqt-panel'],
 
                                   ['fbpanel']],
-                         'Background': [['display', '-window', 'root', BG[0]],
-                                        ['display', '-window', 'root', BG[1]],
-                                        ['display', '-window', 'root', BG[2]],
-                                        ['display', '-window', 'root', BG[3]],
-                                        ['display', '-window', 'root',BG[4]],
-                                        ['xv', '-root', '-quit', BG[0]],
-                                        ['xsetroot', '-grey'],
-                                        ['hsetroot', '-solid', '#333333']
-                                        ],
+                         'Background': bg_options(BG),
                          'Volume control': [['volumeicon']],
                          'Disable touchpad tapping': [['synclient', 'MaxTapTime=0']],
                          'Reverse scroll direction': [['xmodmap', '-e', '"pointer = 1 2 3 5 4"']]
@@ -87,12 +92,18 @@ class Config:
 
     def wizard(self):
         for description, choices in self.ELEMENTS.iteritems():
+            print(chr(27) + "[2J")
+            options = []
+            for option in choices:
+                options.append(' '.join(option))
             print 'Make a selection: ' + description
-            print choices
-            #print 'Autodetected the following from', ', '.join(choices), ':'
+            print '=============================================='
+            print 'Probed for', ', '.join(options)
+            print '=============================================='
             choice = self.chooser(self.validate_binaries(choices))
             self.config['binaries'][description] = choice
 
+        print 'Please choose a theme'
         choice = self.chooser(self.THEMES)
         print choice, 'was chosen'
         self.config['settings']['THEME'] = choice

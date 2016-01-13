@@ -5,17 +5,17 @@
 
 gtk-icon-theme-name = "meta-paper"
 
-#monospace-font-name "Droid Sans Mono 12"
+#monospace-font-name "Droid Sans Mono 16"
 
 style "default"
 {
   GtkOptionMenu::indicator_spacing = { 3, 2, 1, 1 }
   GtkEntry::progress-border = { 1, 1, 1, 1 }
-  GtkRange::slider_width = 14
-  GtkRange::stepper_size = 14
+  GtkRange::slider_width = 18
+  GtkRange::stepper_size = 18
   GtkScrollbar::min_slider_length = 14
-  GtkCheckButton::indicator_size = 12
-  GtkCheckMenuItem::indicator_size = 12
+  GtkCheckButton::indicator_size = 16
+  GtkCheckMenuItem::indicator_size = 16
   GtkButton::default_border = { 0, 0, 0, 0 }
 
   # foreground fonts
@@ -46,7 +46,7 @@ style "default"
   text[SELECTED]    = "#FFFFFF"
   text[INSENSITIVE] = "#747474"
 
-  font_name = "Droid Sans 16"
+  font_name = "Droid Sans 18"
   engine "thinice"
   {
     # Do you want the scrollbar handles rectangular or a bit shaped?
