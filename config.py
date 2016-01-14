@@ -25,7 +25,7 @@ class Config:
                 bg_commands.append(['hsetroot', '-fill', wallpaper])
             for color in colors:
                 bg_commands.append(['hsetroot', '-solid', color])
-            bg_commands.append('xfdesktop')
+            bg_commands.append(['xfdesktop'])
             return bg_commands
 
         self.ELEMENTS = {'Window Manager': [['xfwm4'],
